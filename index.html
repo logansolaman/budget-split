@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paycheck Split · Hong Kong budget planner</title>
+<meta name="description" content="Enter your gross monthly income. MPF and Hong Kong salaries tax are taken out first, then the rest splits into essentials, fun, debt, savings and investing. Saves locally, exports to CSV.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231d6b4f'/><text y='.9em' x='50%25' text-anchor='middle' font-size='62' font-family='system-ui' fill='%23fffefb'>$</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="wrap">
+
+  <header class="head">
+    <p class="eyebrow">Paycheck Split · Hong Kong</p>
+    <h1>One number in.<br>A plan out.</h1>
+    <p class="lede">Enter your gross monthly income. MPF and salaries tax come out first — Hong Kong has no monthly withholding, so that bill is yours to provision. The rest splits into five buckets. Everything stays in this browser.</p>
+  </header>
+
+  <section class="panel" aria-labelledby="income-label">
+    <label class="field-label" for="income" id="income-label">Gross monthly income</label>
+    <div class="money-field">
+      <span class="cur">HK$</span>
+      <input id="income" type="number" inputmode="decimal" min="0" step="100" value="30000" autocomplete="off">
+    </div>
+    <div class="switches">
+      <label class="switch"><input type="checkbox" id="mpfOn" checked><span>Deduct MPF</span></label>
+      <label class="switch"><input type="checkbox" id="taxOn" checked><span>Provision salaries tax</span></label>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="wf-label">
+    <div class="panel-head">
+      <h2 id="wf-label">Where it goes</h2>
+      <p class="hint" id="effRate"></p>
+    </div>
+    <div class="bar" id="bar" role="img" aria-label="Proportional split of gross income"></div>
+    <ul class="wf" id="wf">
+      <li class="wf-row"><span class="k">Gross</span><span class="v" id="wfGross">—</span></li>
+      <li class="wf-row sub"><span class="k"><i class="dot dot-mpf"></i>MPF (employee)</span><span class="v" id="wfMpf">—</span></li>
+      <li class="wf-row sub"><span class="k"><i class="dot dot-tax"></i>Salaries tax provision</span><span class="v" id="wfTax">—</span></li>
+      <li class="wf-row total"><span class="k">To allocate</span><span class="v" id="wfAlloc">—</span></li>
+    </ul>
+  </section>
+
+  <section class="buckets-head">
+    <h2>The split</h2>
+    <p class="hint" id="pctNote"></p>
+  </section>
+  <section class="buckets" id="buckets"></section>
+
+  <section class="panel assumptions">
+    <details>
+      <summary>Tax assumptions used</summary>
+      <div class="assume-body">
+        <div class="grid2">
+          <label class="mini-field">Basic allowance (2026/27)<input id="allowance" type="number" min="0" step="1000" value="145000"></label>
+          <label class="mini-field">MPF cap per month<input id="mpfCap" type="number" min="0" step="500" value="1500"></label>
+        </div>
+        <p class="fine">Salaries tax is annualised (×12) and computed as the lower of the progressive scale — 2%, 6%, 10%, 14%, 17% on $50,000 bands above the basic allowance — or the standard rate of 15% on net income up to $5m, 16% above. MPF at 5% is deductible, capped at $18,000/year. Assumes a full year of Hong Kong employment, no dependants, no other deductions, and that you were not in the year of assessment 2025/26 tax reduction. Guidance only, not tax advice — check your IRD assessment.</p>
+      </div>
+    </details>
+  </section>
+
+  <footer class="toolbar">
+    <div class="toolbar-left">
+      <button class="btn btn-primary" id="exportBtn">Export CSV</button>
+      <button class="btn" id="importBtn">Import CSV</button>
+      <input type="file" id="importFile" accept=".csv,text/csv" hidden>
+    </div>
+    <div class="toolbar-right">
+      <span class="saved" id="saved">Saved locally</span>
+      <button class="btn btn-quiet" id="resetBtn">Reset</button>
+    </div>
+  </footer>
+
+  <p class="foot-note">Runs entirely in your browser — no server, no account, nothing leaves this device. Your settings and line items are kept in local storage on this browser; the CSV is for moving them between devices.</p>
+
+</main>
+<script src="app.js"></script>
+</body>
+</html>
